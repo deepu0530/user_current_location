@@ -57,8 +57,8 @@ class _CurrentLocationState extends State<CurrentLocation> {
     List<Placemark> placemark =
         await placemarkFromCoordinates(position.latitude, position.longitude);
     print(placemark);
-    Placemark place = placemark[2];
-    address = '${place.street}';
+    Placemark place = placemark[0];
+    address = '${place.street}, ${place.thoroughfare}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.administrativeArea}, ${place.country}(${place.isoCountryCode})';
     setState(() {});
   }
 
@@ -129,7 +129,9 @@ class _CurrentLocationState extends State<CurrentLocation> {
                 children: [
                   Text(
                     address,
+                   textAlign: TextAlign.center,
                     style: TextStyle(
+                      
                         color: Colors.black,
                         fontWeight: FontWeight.w700,
                         fontSize: 16),
