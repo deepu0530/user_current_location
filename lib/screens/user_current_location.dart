@@ -57,7 +57,7 @@ class _CurrentLocationState extends State<CurrentLocation> {
     List<Placemark> placemark =
         await placemarkFromCoordinates(position.latitude, position.longitude);
     print(placemark);
-    Placemark place = placemark[0];
+    Placemark place = placemark[2];
     address = '${place.street}';
     setState(() {});
   }
@@ -99,7 +99,7 @@ class _CurrentLocationState extends State<CurrentLocation> {
             point: LatLng(51.5, -0.09),
             builder: (ctx) =>
             Container(
-              child: Icon(Icons.location_on,color: Colors.red,)
+              child: Icon(Icons.location_on,color: Colors.red,size: 25,)
             ),
           ),
         ],
@@ -171,7 +171,9 @@ class _CurrentLocationState extends State<CurrentLocation> {
                 getAddress(position);
                 lat = position.latitude;
                 long = position.longitude;
-                setState(() {});
+                setState(() {
+
+                });
               },
               child: Container(
                   height: 50,
@@ -180,7 +182,7 @@ class _CurrentLocationState extends State<CurrentLocation> {
                     shape: BoxShape.circle,
                     color: Colors.white,
                   ),
-                  child: Center(child: Icon(Icons.location_on))),
+                  child: Center(child: Icon(Icons.gps_fixed,size: 25,))),
             ),
           ),
         ],
