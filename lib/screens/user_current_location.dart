@@ -18,13 +18,11 @@ class CurrentLocation extends StatefulWidget {
 class _CurrentLocationState extends State<CurrentLocation> {
   MapController mapController = MapController();
 
-  
-
   String latitude1 = 'Latitude';
   String longtitude1 = 'Longtitude';
   String address = 'Address';
-  double? lat;
-  double? long;
+
+  List<Marker> listMarkers = [];
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -58,7 +56,8 @@ class _CurrentLocationState extends State<CurrentLocation> {
         await placemarkFromCoordinates(position.latitude, position.longitude);
     print(placemark);
     Placemark place = placemark[0];
-    address = '${place.street}, ${place.thoroughfare}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.administrativeArea}, ${place.country}(${place.isoCountryCode})';
+    address =
+        '${place.street}, ${place.thoroughfare}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.administrativeArea}, ${place.country}(${place.isoCountryCode})';
     setState(() {});
   }
 
@@ -79,7 +78,7 @@ class _CurrentLocationState extends State<CurrentLocation> {
             child: FlutterMap(
               options: MapOptions(
                  center: LatLng(51.5, -0.09),
-                //center: LatLng(lat!,long!), // London
+                
                 zoom: 16.0,
                 minZoom: 10,
               ),
@@ -92,17 +91,7 @@ class _CurrentLocationState extends State<CurrentLocation> {
                   },
                 ),
                 MarkerLayerOptions(
-                  markers: [
-          Marker(
-            width: 80.0,
-            height: 80.0,
-            point: LatLng(51.5, -0.09),
-            builder: (ctx) =>
-            Container(
-              child: Icon(Icons.location_on,color: Colors.red,size: 25,)
-            ),
-          ),
-        ],
+                  markers: listMarkers,
                 ),
               ],
               mapController: mapController,
@@ -129,9 +118,8 @@ class _CurrentLocationState extends State<CurrentLocation> {
                 children: [
                   Text(
                     address,
-                   textAlign: TextAlign.center,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      
                         color: Colors.black,
                         fontWeight: FontWeight.w700,
                         fontSize: 16),
@@ -170,27 +158,47 @@ class _CurrentLocationState extends State<CurrentLocation> {
                 print(position.longitude);
                 latitude1 = 'Latitude : ${position.latitude}';
                 longtitude1 = 'Latitude : ${position.longitude}';
-                getAddress(position);
-                lat = position.latitude;
-                long = position.longitude;
-                setState(() {
 
+                getAddress(position);
+
+                setState(() {
+                  listMarkers = [
+                    Marker(
+                      // width: 80.0,
+                      // height: 80.0,
+                      point: LatLng(position.latitude, position.longitude),
+                    
+                      builder: (ctx) => Container(
+                          child: Icon(
+                        Icons.location_on,
+                        color: Colors.red,
+                        size: 30,
+                      )),
+                    ),
+                     
+                  ];
                 });
+                mapController.move(
+                    LatLng(position.latitude, position.longitude), 15);
               },
               child: Container(
                   height: 50,
                   width: 50,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.white,
+                    color: Colors.red,
                   ),
-                  child: Center(child: Icon(Icons.gps_fixed,size: 25,))),
+                  child: Center(
+                      child: Icon(
+                        
+                    Icons.gps_fixed,
+                    color: Colors.white,
+                    size: 25,
+                  ))),
             ),
           ),
         ],
       ),
     );
   }
-
-
 }
