@@ -1,6 +1,10 @@
+import 'dart:async';
 import 'dart:ui';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:latlong2/latlong.dart';
@@ -16,6 +20,10 @@ class CurrentLocation extends StatefulWidget {
 }
 
 class _CurrentLocationState extends State<CurrentLocation> {
+
+
+
+
   MapController mapController = MapController();
 
   String latitude1 = 'Latitude';
@@ -63,7 +71,7 @@ class _CurrentLocationState extends State<CurrentLocation> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+  return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -75,10 +83,10 @@ class _CurrentLocationState extends State<CurrentLocation> {
         children: [
           Container(
             color: Colors.green,
-            child: FlutterMap(
+            child:
+            FlutterMap(
               options: MapOptions(
-                 center: LatLng(51.5, -0.09),
-                
+                center: LatLng(51.5, -0.09),
                 zoom: 16.0,
                 minZoom: 10,
               ),
@@ -167,7 +175,7 @@ class _CurrentLocationState extends State<CurrentLocation> {
                       // width: 80.0,
                       // height: 80.0,
                       point: LatLng(position.latitude, position.longitude),
-                    
+
                       builder: (ctx) => Container(
                           child: Icon(
                         Icons.location_on,
@@ -175,7 +183,6 @@ class _CurrentLocationState extends State<CurrentLocation> {
                         size: 30,
                       )),
                     ),
-                     
                   ];
                 });
                 mapController.move(
@@ -190,7 +197,6 @@ class _CurrentLocationState extends State<CurrentLocation> {
                   ),
                   child: Center(
                       child: Icon(
-                        
                     Icons.gps_fixed,
                     color: Colors.white,
                     size: 25,
